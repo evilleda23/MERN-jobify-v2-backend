@@ -1,0 +1,34 @@
+{
+  "error_500": "An unexpected error occurred on the server. Please try again later.",
+
+  "auth": {
+    "noToken_401": "No token, authorization denied",
+    "invalidToken_401": "Token is not valid",
+    "token_500": "Error while verifying token",
+    "generateToken_500": "Error while generating token",
+    "decodingToken_500": "Error while decoding token",
+
+    "noUserFound_404": "User not found",
+    "noUserFound_401": "Invalid Session",
+    "noUser_401": "Invalid Session",
+    "login_200": "User logged in successfully",
+    "login_401": "Invalid credentials",
+    "login_404": "User not found",
+
+    "register_200": "User registered successfully",
+
+    "emailValidated_200": "Email validated successfully",
+    "emailExists_400": "Email already exists",
+
+    "logout_200": "User logged out successfully"
+  },
+  "email": {
+    "send_200": "Email sent successfully",
+    "send_500": "Error while sending email"
+  },
+  "images": {
+    "notFound_404": "Image not found",
+    "upload_201": "Image uploaded successfully",
+    "delete_200": " Image deleted successfully"
+  }
+}

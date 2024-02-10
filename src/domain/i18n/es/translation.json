@@ -1,0 +1,33 @@
+{
+  "error_500": "Error interno del servidor. Por favor, inténtelo de nuevo más tarde",
+
+  "auth": {
+    "noToken_401": "No se ha enviado el token de autenticación",
+    "invalidToken_401": "Token de autenticación no válido",
+    "token_500": "No se generó el token de autenticación",
+    "generateToken_500": "Error al generar el token de autenticación",
+    "decodingToken_500": "Error al decodificar el token de autenticación",
+
+    "noUserFound_404": "Usuario no encontrado",
+    "noUser_401": "Sesión inválida",
+
+    "login_200": "Usuario logueado correctamente",
+    "login_401": "Usuario o contraseña incorrectos",
+
+    "register_200": "Usuario registrado correctamente",
+
+    "emailValidated_200": "Email validado correctamente",
+    "emailExists_400": "Email already exists",
+
+    "logout_200": "Usuario deslogueado correctamente"
+  },
+  "email": {
+    "send_200": "Email enviado correctamente",
+    "send_500": "Error al enviar el email"
+  },
+  "images": {
+    "notFound_404": "Imagen no encontrada",
+    "upload_201": "Imagen subida correctamente",
+    "delete_200": "Imagen eliminada correctamente"
+  }
+}
