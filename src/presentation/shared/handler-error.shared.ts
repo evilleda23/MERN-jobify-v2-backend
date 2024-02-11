@@ -11,7 +11,7 @@ export const handleError = (
   origin: string,
   logService: LogDatasource
 ) => {
-  if (error instanceof CustomError && error.statusCode <= 500) {
+  if (error instanceof CustomError && error.statusCode < 500) {
     return HttpResponse.create(res, error.statusCode, error.message);
   }
   const log = new LogEntity({

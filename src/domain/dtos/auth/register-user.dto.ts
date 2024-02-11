@@ -30,8 +30,8 @@ export class RegisterUserDto {
         message:
           'Password is required and must include at least one uppercase letter, one lowercase letter, one digit, and at least one special character, with a minimum length of 8 characters',
       });
-
-    return [undefined, new RegisterUserDto(name, email, password)];
+    if (errors.length > 0) return [errors];
+    return [, new RegisterUserDto(name, email, password)];
   }
   static getName(): string {
     return this.name;
