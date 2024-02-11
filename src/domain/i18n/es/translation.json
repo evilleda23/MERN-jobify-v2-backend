@@ -1,6 +1,6 @@
 {
   "error_500": "Error interno del servidor. Por favor, inténtelo de nuevo más tarde",
-
+  "payload_400": "Payload inválido",
   "auth": {
     "noToken_401": "No se ha enviado el token de autenticación",
     "invalidToken_401": "Token de autenticación no válido",

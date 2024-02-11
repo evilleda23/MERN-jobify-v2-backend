@@ -1,12 +1,14 @@
 import { NextFunction, Request, Response } from 'express';
+import { ErrorDto } from '../../domain/interfaces';
+import { HttpResponse } from '../shared';
 
 export function ValidateBodyDtoMiddleware<T>(dtoClass: {
-  create(object: unknown): [string?, T?];
+  create(object: unknown): [ErrorDto[]?, T?];
   getName(): string;
 }): (req: Request, res: Response, next: NextFunction) => void {
   return (req: Request, res: Response, next: NextFunction) => {
-    const [error, createDto] = dtoClass.create(req.body);
-    if (error) return res.status(400).json({ error });
+    const [errors, createDto] = dtoClass.create(req.body);
+    if (errors) return HttpResponse.create(res, 400, 'payload', { errors });
 
     const className = dtoClass.getName();
 
@@ -17,14 +19,14 @@ export function ValidateBodyDtoMiddleware<T>(dtoClass: {
 }
 
 export function ValidateQueryDtoMiddleware<T>(dtoClass: {
-  create(object: unknown): [string?, T?];
+  create(object: unknown): [ErrorDto[]?, T?];
   getName(): string;
 }): (req: Request, res: Response, next: NextFunction) => void {
   return (req: Request, res: Response, next: NextFunction) => {
-    const [error, createDto] = dtoClass.create(req.query);
+    const [errors, createDto] = dtoClass.create(req.query);
 
-    if (error) {
-      return res.status(400).json({ error });
+    if (errors) {
+      return HttpResponse.create(res, 400, 'payload', { errors });
     }
 
     const className = dtoClass.getName();

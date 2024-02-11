@@ -1,4 +1,5 @@
 import { regularExps } from '../../../config';
+import { ErrorDto } from '../../interfaces';
 
 export class RegisterUserDto {
   private constructor(
@@ -7,14 +8,28 @@ export class RegisterUserDto {
     public password: string
   ) {}
 
-  static create(object: { [key: string]: any }): [string?, RegisterUserDto?] {
+  static create(object: {
+    [key: string]: any;
+  }): [ErrorDto[]?, RegisterUserDto?] {
     const { name, email, password } = object;
+    const errors: ErrorDto[] = [];
+    if (!name)
+      errors.push({
+        field: 'name',
+        message: 'Missing Name',
+      });
+    if (!email || !regularExps.email.test(email))
+      errors.push({
+        field: 'email',
+        message: 'Email is required and must be a valid',
+      });
 
-    if (!name) return ['Missing Name'];
-    if (!email) return ['Missing Email'];
-    if (!regularExps.email.test(email)) return ['Invalid Email'];
-    if (!password) return ['Missing Password'];
-    if (!regularExps.password.test(password)) return ['Invalid Password'];
+    if (!password || !regularExps.password.test(password))
+      errors.push({
+        field: 'password',
+        message:
+          'Password is required and must include at least one uppercase letter, one lowercase letter, one digit, and at least one special character, with a minimum length of 8 characters',
+      });
 
     return [undefined, new RegisterUserDto(name, email, password)];
   }

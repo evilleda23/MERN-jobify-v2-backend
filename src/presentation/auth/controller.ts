@@ -29,8 +29,7 @@ export class AuthController {
   };
 
   public login = (req: Request, res: Response) => {
-    const [error, loginUserDto] = LoginUserDto.create(req.body);
-    if (error) return res.status(400).json({ error });
+    const loginUserDto = req.body.LoginUserDto as LoginUserDto;
 
     return this.authService
       .loginUser(loginUserDto!)
@@ -46,8 +45,7 @@ export class AuthController {
   };
 
   public register = (req: Request, res: Response) => {
-    const [error, registerUserDto] = RegisterUserDto.create(req.body);
-    if (error) return res.status(400).json({ error });
+    const registerUserDto = req.body.RegisterUserDto as RegisterUserDto;
     return this.authService
       .registerUser(registerUserDto!)
       .then((user) => HttpResponse.create(res, 200, 'auth.register', user))

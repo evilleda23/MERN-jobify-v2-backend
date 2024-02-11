@@ -1,5 +1,6 @@
 {
   "error_500": "An unexpected error occurred on the server. Please try again later.",
+  "payload_400": "Invalid payload",
 
   "auth": {
     "noToken_401": "No token, authorization denied",
