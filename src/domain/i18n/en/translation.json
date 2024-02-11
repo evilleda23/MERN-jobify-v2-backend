@@ -31,5 +31,13 @@
     "notFound_404": "Image not found",
     "upload_201": "Image uploaded successfully",
     "delete_200": " Image deleted successfully"
+  },
+  "job": {
+    "getAll_200": "Jobs retrieved successfully",
+    "getById_200": "Job retrieved successfully",
+    "notFound_404": "Job not found",
+    "create_201": "Job created successfully",
+    "update_200": "Job updated successfully",
+    "delete_200": "Job deleted"
   }
 }

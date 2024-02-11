@@ -1,6 +1,7 @@
 {
   "error_500": "Error interno del servidor. Por favor, inténtelo de nuevo más tarde",
   "payload_400": "Payload inválido",
+  "invalidId_400": "Id inválido",
   "auth": {
     "noToken_401": "No se ha enviado el token de autenticación",
     "invalidToken_401": "Token de autenticación no válido",
@@ -29,5 +30,11 @@
     "notFound_404": "Imagen no encontrada",
     "upload_201": "Imagen subida correctamente",
     "delete_200": "Imagen eliminada correctamente"
+  },
+  "job": {
+    "notFound_404": "Trabajo no encontrado",
+    "create_201": "Trabajo creado correctamente",
+    "update_200": "Trabajo actualizado correctamente",
+    "delete_200": "Trabajo eliminado correctamente"
   }
 }
