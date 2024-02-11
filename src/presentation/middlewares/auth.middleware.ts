@@ -31,7 +31,6 @@ export class AuthMiddleware {
   static async isAdmin(req: Request, res: Response, next: NextFunction) {
     const user = req.user as UserEntity;
     if (!user) return HttpResponse.create(res, 401, 'auth.noUser');
-    console.log(user.email, user.isAdmin);
     if (!user.isAdmin) return HttpResponse.create(res, 403, 'auth.noAdmin');
     next();
   }

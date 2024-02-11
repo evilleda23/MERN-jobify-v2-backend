@@ -36,3 +36,24 @@ export function ValidateQueryDtoMiddleware<T>(dtoClass: {
     next();
   };
 }
+
+export function ValidateDtoMiddleware<T>(dtoClass: {
+  create(object: unknown): [ErrorDto[]?, T?];
+  getName(): string;
+}): (req: Request, res: Response, next: NextFunction) => void {
+  return (req: Request, res: Response, next: NextFunction) => {
+    const [errors, createDto] = dtoClass.create({
+      ...req.params,
+      ...req.query,
+      ...req.body,
+    });
+
+    if (errors) return HttpResponse.create(res, 400, 'payload', { errors });
+
+    const className = dtoClass.getName();
+
+    req.body = { ...req.body, [className]: createDto as T };
+
+    next();
+  };
+}
