@@ -32,6 +32,8 @@
     "delete_200": "Imagen eliminada correctamente"
   },
   "job": {
+    "getAll_200": "Trabajos obtenidos correctamente",
+    "getById_200": "Trabajo obtenido correctamente",
     "notFound_404": "Trabajo no encontrado",
     "create_201": "Trabajo creado correctamente",
     "update_200": "Trabajo actualizado correctamente",
