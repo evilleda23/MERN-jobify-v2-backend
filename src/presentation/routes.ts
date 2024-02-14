@@ -5,6 +5,7 @@ import { AuthRoutes } from './auth/routes';
 import { FileUploadRoutes } from './file-upload/routes';
 import { ImagesRoutes } from './images/routes';
 import { JobRoutes } from './jobs/routes';
+import { AuthMiddleware } from './middlewares/auth.middleware';
 
 export class AppRoutes {
   static get routes(): Router {
@@ -17,7 +18,11 @@ export class AppRoutes {
     router.use(`${apiPrefix}/upload`, FileUploadRoutes.routes);
     router.use(`${apiPrefix}/images`, ImagesRoutes.routes);
 
-    router.use(`${apiPrefix}/jobs`, JobRoutes.routes);
+    router.use(
+      `${apiPrefix}/jobs`,
+      AuthMiddleware.validateJWT,
+      JobRoutes.routes
+    );
 
     return router;
   }

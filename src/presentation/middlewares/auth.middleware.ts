@@ -15,11 +15,11 @@ export class AuthMiddleware {
 
       if (!payload) return HttpResponse.create(res, 401, 'auth.invalidToken');
       const userService = new UserService();
-      const userId = parseInt(payload.id);
+      const userId = payload.id;
       if (!userId) return HttpResponse.create(res, 401, 'auth.invalidToken');
       const user = await userService.findById(userId);
       if (!user) return HttpResponse.create(res, 401, 'auth.noUserFound');
-
+      console.log('Hola');
       req.user = UserEntity.fromObject(user);
 
       next();

@@ -7,7 +7,7 @@ import { UserModel } from '../../data/mongo';
 
 export class UserService {
   constructor() {}
-  public async findById(id: number) {
+  public async findById(id: string) {
     try {
       const user = await UserModel.findById(id);
       if (!user) throw CustomError.notFound('User not found');
