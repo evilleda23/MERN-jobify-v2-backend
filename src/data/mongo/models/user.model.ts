@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import { USER_ROLES } from '../../../domain/constants';
 
 const userSchema = new Schema({
   name: { type: String, required: [true, 'Name is required'] },
@@ -8,12 +9,15 @@ const userSchema = new Schema({
   img: {
     type: String,
   },
-  isAdmin: { type: Boolean, default: false },
+  location: {
+    type: String,
+    required: [true, 'Location is required'],
+  },
   role: {
-    type: [String],
+    type: String,
     required: true,
-    default: ['USER_ROLE'],
-    enum: ['ADMIN_ROLE', 'USER_ROLE'],
+    default: USER_ROLES.USER_ROLE,
+    enum: USER_ROLES,
   },
 });
 userSchema.set('toJSON', {

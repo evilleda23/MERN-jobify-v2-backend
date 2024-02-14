@@ -1,3 +1,4 @@
+import { envs } from '../../config';
 import { Request, Response } from 'express';
 import { RegisterUserDto } from '../../domain';
 import { AuthService } from '../services/auth.service';
@@ -33,7 +34,10 @@ export class AuthController {
 
     return this.authService
       .loginUser(loginUserDto!)
-      .then((user) => HttpResponse.create(res, 200, `auth.login`, user))
+      .then((user) => {
+        this.setJwtCookie(res, user.token);
+        HttpResponse.create(res, 200, `auth.login`, user);
+      })
       .catch((error) =>
         handleError(
           error,
@@ -48,7 +52,10 @@ export class AuthController {
     const registerUserDto = req.body.RegisterUserDto as RegisterUserDto;
     return this.authService
       .registerUser(registerUserDto!)
-      .then((user) => HttpResponse.create(res, 200, 'auth.register', user))
+      .then((user) => {
+        this.setJwtCookie(res, user.token);
+        HttpResponse.create(res, 200, 'auth.register', user);
+      })
       .catch((error) =>
         handleError(
           error,
@@ -74,4 +81,12 @@ export class AuthController {
         )
       );
   };
+  private setJwtCookie(res: Response, token: string) {
+    res.cookie('jwt', token, {
+      httpOnly: true,
+      secure: envs.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: envs.COOKIE_MAX_AGE,
+    });
+  }
 }

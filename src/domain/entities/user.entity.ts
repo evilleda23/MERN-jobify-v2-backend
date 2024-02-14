@@ -1,19 +1,51 @@
+import { Validators } from '../../config';
+import { USER_ROLES } from '../constants';
 import { CustomError } from '../errors/custom.error';
 
+interface UserEntityProps {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  location: string;
+  emailValidated: boolean;
+  role: string;
+  img?: string;
+}
+
 export class UserEntity {
-  constructor(
-    public id: string,
-    public name: string,
-    public email: string,
-    public password: string,
-    public emailValidated: boolean,
-    public isAdmin: boolean,
-    public img?: string
-  ) {}
+  public readonly id: string;
+  public readonly name: string;
+  public readonly email: string;
+  public readonly password: string;
+  public readonly location: string;
+  public readonly emailValidated: boolean;
+  public readonly role: string;
+  public readonly img?: string;
+
+  constructor(userProps: UserEntityProps) {
+    this.id = userProps.id;
+    this.name = userProps.name;
+    this.email = userProps.email;
+    this.password = userProps.password;
+    this.location = userProps.location;
+    this.emailValidated = userProps.emailValidated;
+    this.role = userProps.role;
+    this.img = userProps.img;
+  }
 
   static fromObject(object: { [key: string]: any }): UserEntity {
-    const { id, _id, name, email, password, emailValidated, img, isAdmin } =
-      object;
+    const {
+      id,
+      _id,
+      name,
+      email,
+      password,
+      emailValidated,
+      img,
+      role,
+      location,
+    } = object;
     if (!id && !_id) {
       throw CustomError.badRequest('Missing ID');
     }
@@ -30,14 +62,21 @@ export class UserEntity {
       throw CustomError.badRequest('Missing Password');
     }
 
-    return new UserEntity(
-      _id || id,
+    if (!Validators.isValidEnumValue(role, Object.values(USER_ROLES))) {
+      throw CustomError.badRequest('Invalid Role');
+    }
+    if (!location) {
+      throw CustomError.badRequest('Missing Location');
+    }
+    return new UserEntity({
+      id: _id || id,
       name,
       email,
       password,
+      location,
       emailValidated,
-      isAdmin,
-      img
-    );
+      role,
+      img,
+    });
   }
 }

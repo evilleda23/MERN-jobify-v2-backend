@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
+import { Schema, model } from 'mongoose';
 
-const logSchema = new mongoose.Schema({
+const logSchema = new Schema({
   message: {
     type: String,
     required: true,
@@ -19,4 +19,4 @@ const logSchema = new mongoose.Schema({
   },
 });
 
-export const LogModel = mongoose.model('Log', logSchema);
+export const LogModel = model('Log', logSchema);

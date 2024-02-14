@@ -4,7 +4,7 @@ import { UserEntity } from '../../domain';
 import { HttpResponse } from '../shared';
 import { UserService } from '../services';
 import { envs } from '../../config';
-import { jwtSourceTypes } from '../../domain/constants';
+import { USER_ROLES, JWT_SOURCE_TYPES } from '../../domain/constants';
 import colors from 'colors';
 export class AuthMiddleware {
   static async validateJWT(req: Request, res: Response, next: NextFunction) {
@@ -31,17 +31,18 @@ export class AuthMiddleware {
   static async isAdmin(req: Request, res: Response, next: NextFunction) {
     const user = req.user as UserEntity;
     if (!user) return HttpResponse.create(res, 401, 'auth.noUser');
-    if (!user.isAdmin) return HttpResponse.create(res, 403, 'auth.noAdmin');
+    if (!user.role || user.role !== USER_ROLES.ADMIN_ROLE)
+      return HttpResponse.create(res, 403, 'auth.noAdmin');
     next();
   }
   private static extractToken(req: Request): string {
     const source = envs.JWT_SOURCE_TYPE;
 
     switch (source) {
-      case jwtSourceTypes.COOKIE:
+      case JWT_SOURCE_TYPES.COOKIE:
         return req.cookies.jwt || '';
 
-      case jwtSourceTypes.BEARER:
+      case JWT_SOURCE_TYPES.BEARER:
         const authorization = req.header('Authorization');
         if (!authorization) return '';
         if (!authorization.startsWith('Bearer ')) return '';
@@ -52,7 +53,7 @@ export class AuthMiddleware {
 
         console.log(
           colors.red.inverse(
-            `JWT_SOURCE_TYPE must be ${Object.values(jwtSourceTypes).join(
+            `JWT_SOURCE_TYPE must be ${Object.values(JWT_SOURCE_TYPES).join(
               ', '
             )}`
           )

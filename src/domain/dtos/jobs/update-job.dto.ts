@@ -1,5 +1,6 @@
 import { Validators } from '../../../config';
 import { ErrorDto } from '../../interfaces';
+import { createErrorDto } from '../shared';
 import { validateJobStatus, validateJobType } from './job-validator';
 
 export class UpdateJobDto {
@@ -27,12 +28,13 @@ export class UpdateJobDto {
     const { id, company, position, jobLocation, jobStatus, jobType } = object;
     const errors: ErrorDto[] = [];
     if (!id || !Validators.isMongoId(id))
-      errors.push({ field: 'id', message: 'Id is required and must be valid' });
+      errors.push(
+        createErrorDto('id', 'Id is required and must be a valid id')
+      );
     if (Object.keys(object).length === 1)
-      errors.push({
-        field: 'update',
-        message: 'At least one field is required to update',
-      });
+      errors.push(
+        createErrorDto('update', 'At least one field is required to update')
+      );
     if (jobStatus) {
       const [jobStatusError] = validateJobStatus(jobStatus);
       if (jobStatusError) errors.push(jobStatusError);

@@ -26,6 +26,7 @@ export class AuthService {
         {
           id: userEntity.id,
           email: userEntity.email,
+          role: userEntity.role,
         },
         envs.JWT_EXPIRE
       );
@@ -50,6 +51,7 @@ export class AuthService {
     const token = await JWTAdapter.generateToken({
       id: userEntity.id,
       email: userEntity.email,
+      role: userEntity.role,
     });
 
     if (!token) throw CustomError.internalServer('auth.token');

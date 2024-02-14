@@ -1,4 +1,5 @@
 import { ErrorDto } from '../../interfaces';
+import { createErrorDto } from '../shared';
 import { validateJobStatus, validateJobType } from './job-validator';
 
 export class CreateJobDto {
@@ -13,22 +14,12 @@ export class CreateJobDto {
   static create(object: { [key: string]: any }): [ErrorDto[]?, CreateJobDto?] {
     const { company, position, jobLocation, jobStatus, jobType } = object;
     const errors: ErrorDto[] = [];
-    if (!company)
-      errors.push({
-        field: 'company',
-        message: 'Missing Company',
-      });
+    if (!company) errors.push(createErrorDto('company', 'Company is required'));
 
     if (!position)
-      errors.push({
-        field: 'position',
-        message: 'Missing Position',
-      });
+      errors.push(createErrorDto('position', 'Position is required'));
     if (!jobLocation) {
-      errors.push({
-        field: 'jobLocation',
-        message: 'Missing Job Location',
-      });
+      errors.push(createErrorDto('jobLocation', 'Job Location is required'));
     }
 
     const [jobStatusError] = validateJobStatus(jobStatus);

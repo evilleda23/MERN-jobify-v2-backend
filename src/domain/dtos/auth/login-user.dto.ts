@@ -1,5 +1,6 @@
 import { regularExps } from '../../../config';
 import { ErrorDto } from '../../interfaces';
+import { createErrorDto } from '../shared';
 
 export class LoginUserDto {
   private constructor(public email: string, public password: string) {}
@@ -8,16 +9,12 @@ export class LoginUserDto {
     const { email, password } = object;
     const errors: ErrorDto[] = [];
     if (!email || !regularExps.email.test(email))
-      errors.push({
-        field: 'email',
-        message: 'Email is required and must be a valid',
-      });
+      errors.push(
+        createErrorDto('email', 'Email is required and must be a valid')
+      );
 
     if (!password)
-      errors.push({
-        field: 'password',
-        message: 'Missing Password',
-      });
+      errors.push(createErrorDto('password', 'Password is required'));
     if (errors.length > 0) return [errors];
     return [, new LoginUserDto(email, password)];
   }
