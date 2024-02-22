@@ -38,5 +38,8 @@
     "create_201": "Trabajo creado correctamente",
     "update_200": "Trabajo actualizado correctamente",
     "delete_200": "Trabajo eliminado correctamente"
+  },
+  "user": {
+    "notFound_404": "Usuario no encontrado"
   }
 }

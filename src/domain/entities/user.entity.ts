@@ -2,7 +2,7 @@ import { Validators } from '../../config';
 import { USER_ROLES } from '../constants';
 import { CustomError } from '../errors/custom.error';
 
-interface UserEntityProps {
+interface IUserEntity {
   id: string;
   name: string;
   email: string;
@@ -23,7 +23,7 @@ export class UserEntity {
   public readonly role: string;
   public readonly img?: string;
 
-  constructor(userProps: UserEntityProps) {
+  constructor(userProps: IUserEntity) {
     this.id = userProps.id;
     this.name = userProps.name;
     this.email = userProps.email;

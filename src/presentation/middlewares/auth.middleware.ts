@@ -1,17 +1,19 @@
-import { NextFunction, Request, Response } from 'express';
-import { JWTAdapter } from '../../config';
-import { UserEntity } from '../../domain';
-import { HttpResponse } from '../shared';
-import { UserService } from '../services';
-import { envs } from '../../config';
-import { USER_ROLES, JWT_SOURCE_TYPES } from '../../domain/constants';
 import colors from 'colors';
+import { NextFunction, Request, Response } from 'express';
+
+import { JWTAdapter, envs } from '../../config';
+import { HttpResponse, handleError } from '../shared';
+import { USER_ROLES, JWT_SOURCE_TYPES } from '../../domain/constants';
+import { IPayload } from '../../domain/interfaces/payload.interface';
+import { UserEntity } from '../../domain';
+import { UserService } from '../services';
+
 export class AuthMiddleware {
   static async validateJWT(req: Request, res: Response, next: NextFunction) {
     const token = AuthMiddleware.extractToken(req);
     if (!token) return HttpResponse.create(res, 401, 'auth.invalidToken');
     try {
-      const payload = await JWTAdapter.verify<{ id: string }>(token);
+      const payload = await JWTAdapter.verify<IPayload>(token);
 
       if (!payload) return HttpResponse.create(res, 401, 'auth.invalidToken');
       const userService = new UserService();
@@ -19,13 +21,12 @@ export class AuthMiddleware {
       if (!userId) return HttpResponse.create(res, 401, 'auth.invalidToken');
       const user = await userService.findById(userId);
       if (!user) return HttpResponse.create(res, 401, 'auth.noUserFound');
-      console.log('Hola');
+
       req.user = UserEntity.fromObject(user);
 
       next();
     } catch (error) {
-      console.log(`error: ${error}`);
-      return HttpResponse.create(res, 500, 'error');
+      return handleError(error, res, 'AuthMiddleware.validateJWT');
     }
   }
   static async isAdmin(req: Request, res: Response, next: NextFunction) {

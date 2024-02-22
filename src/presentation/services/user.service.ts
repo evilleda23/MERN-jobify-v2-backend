@@ -8,13 +8,9 @@ import { UserModel } from '../../data/mongo';
 export class UserService {
   constructor() {}
   public async findById(id: string) {
-    try {
-      const user = await UserModel.findById(id);
-      if (!user) throw CustomError.notFound('User not found');
+    const user = await UserModel.findById(id);
+    if (!user) throw CustomError.notFound('user.notFound');
 
-      return user;
-    } catch (error) {
-      throw CustomError.internalServer(`${error}`);
-    }
+    return user;
   }
 }

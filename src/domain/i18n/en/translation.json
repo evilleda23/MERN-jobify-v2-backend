@@ -39,5 +39,8 @@
     "create_201": "Job created successfully",
     "update_200": "Job updated successfully",
     "delete_200": "Job deleted"
+  },
+  "user": {
+    "notFound_404": "User not found"
   }
 }
