@@ -21,7 +21,7 @@ export class AuthService {
       });
       user.save();
       await this.sendEmailValidationLink(user.email);
-      const { password, ...userEntity } = UserEntity.fromObject(user);
+      const userEntity = UserEntity.fromObject(user);
       const token = await JWTAdapter.generateToken(
         {
           id: userEntity.id,
@@ -46,7 +46,7 @@ export class AuthService {
     );
     if (!isPasswordValid) throw CustomError.unauthorize('auth.login');
 
-    const { password, ...userEntity } = UserEntity.fromObject(existUser);
+    const userEntity = UserEntity.fromObject(existUser);
 
     const token = await JWTAdapter.generateToken({
       id: userEntity.id,

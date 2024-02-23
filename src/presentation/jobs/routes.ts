@@ -7,6 +7,7 @@ import {
   ValidateDtoMiddleware,
 } from '../middlewares/check-dto.middleware';
 import { CreateJobDto, PaginationDto, UpdateJobDto } from '../../domain/dtos';
+import { AuthMiddleware } from '../middlewares/auth.middleware';
 
 export class JobRoutes {
   static get routes(): Router {
@@ -21,7 +22,12 @@ export class JobRoutes {
       ValidateQueryDtoMiddleware(PaginationDto),
       jobController.getJobs
     );
-    router.get('/:id', jobController.getJobById);
+    router.get(
+      '/my-jobs',
+      ValidateQueryDtoMiddleware(PaginationDto),
+      jobController.getJobsCreatedByUser
+    );
+    router.get('/:id', AuthMiddleware.isJobOwner, jobController.getJobById);
     router.post(
       '/',
       ValidateBodyDtoMiddleware(CreateJobDto),

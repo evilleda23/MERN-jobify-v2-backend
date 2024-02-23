@@ -6,7 +6,7 @@ import { HttpResponse, handleError } from '../shared';
 import { USER_ROLES, JWT_SOURCE_TYPES } from '../../domain/constants';
 import { IPayload } from '../../domain/interfaces/payload.interface';
 import { UserEntity } from '../../domain';
-import { UserService } from '../services';
+import { JobService, UserService } from '../services';
 
 export class AuthMiddleware {
   static async validateJWT(req: Request, res: Response, next: NextFunction) {
@@ -36,6 +36,29 @@ export class AuthMiddleware {
       return HttpResponse.create(res, 403, 'auth.noAdmin');
     next();
   }
+  static async isJobOwner(req: Request, res: Response, next: NextFunction) {
+    const user = req.user as UserEntity;
+
+    if (!user) return HttpResponse.create(res, 401, 'auth.noUser');
+    const { id } = req.params;
+    if (!id) return HttpResponse.create(res, 400, 'job.noId');
+
+    const jobService = new JobService();
+    let job;
+    try {
+      job = await jobService.getJobById(id);
+    } catch (error) {
+      return HttpResponse.create(res, 403, 'auth.noOwner');
+    }
+    const isAdmin = user.role === USER_ROLES.ADMIN_ROLE;
+
+    const isOwner = job.createdBy?.toString() === user.id;
+    if (!isAdmin && !isOwner)
+      return HttpResponse.create(res, 403, 'auth.noOwner');
+
+    next();
+  }
+
   private static extractToken(req: Request): string {
     const source = envs.JWT_SOURCE_TYPE;
 

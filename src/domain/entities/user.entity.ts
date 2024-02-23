@@ -6,7 +6,7 @@ interface IUserEntity {
   id: string;
   name: string;
   email: string;
-  password: string;
+
   location: string;
   emailValidated: boolean;
   role: string;
@@ -17,7 +17,6 @@ export class UserEntity {
   public readonly id: string;
   public readonly name: string;
   public readonly email: string;
-  public readonly password: string;
   public readonly location: string;
   public readonly emailValidated: boolean;
   public readonly role: string;
@@ -27,7 +26,7 @@ export class UserEntity {
     this.id = userProps.id;
     this.name = userProps.name;
     this.email = userProps.email;
-    this.password = userProps.password;
+
     this.location = userProps.location;
     this.emailValidated = userProps.emailValidated;
     this.role = userProps.role;
@@ -35,17 +34,8 @@ export class UserEntity {
   }
 
   static fromObject(object: { [key: string]: any }): UserEntity {
-    const {
-      id,
-      _id,
-      name,
-      email,
-      password,
-      emailValidated,
-      img,
-      role,
-      location,
-    } = object;
+    const { id, _id, name, email, emailValidated, img, role, location } =
+      object;
     if (!id && !_id) {
       throw CustomError.badRequest('Missing ID');
     }
@@ -58,9 +48,6 @@ export class UserEntity {
     if (emailValidated === undefined) {
       throw CustomError.badRequest('Missing EmailValidated');
     }
-    if (!password) {
-      throw CustomError.badRequest('Missing Password');
-    }
 
     if (!Validators.isValidEnumValue(role, Object.values(USER_ROLES))) {
       throw CustomError.badRequest('Invalid Role');
@@ -72,7 +59,6 @@ export class UserEntity {
       id: _id || id,
       name,
       email,
-      password,
       location,
       emailValidated,
       role,

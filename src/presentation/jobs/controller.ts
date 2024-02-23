@@ -5,6 +5,7 @@ import { JobService } from '../services/job.service';
 import { HttpResponse, handleError } from '../shared';
 import { LogDatasource } from '../../domain/datasources/log.datasource';
 import { CreateJobDto, PaginationDto, UpdateJobDto } from '../../domain/dtos';
+import { UserEntity } from '../../domain';
 
 export class JobController {
   constructor(
@@ -17,6 +18,21 @@ export class JobController {
 
     return this.jobService
       .getJobs(paginationDto!)
+      .then((jobs) => HttpResponse.create(res, 200, `job.getAll`, jobs))
+      .catch((error) =>
+        handleError(
+          error,
+          res,
+          `${this.constructor.name}.getJobs`,
+          this.logService
+        )
+      );
+  };
+  public getJobsCreatedByUser = (req: Request, res: Response) => {
+    const paginationDto = req.body.PaginationDto as PaginationDto;
+    const user = req.user as UserEntity;
+    return this.jobService
+      .getJobsCreatedByUser(paginationDto!, user)
       .then((jobs) => HttpResponse.create(res, 200, `job.getAll`, jobs))
       .catch((error) =>
         handleError(
@@ -44,9 +60,9 @@ export class JobController {
   };
   public createJob = (req: Request, res: Response) => {
     const createJobDto = req.body.CreateJobDto as CreateJobDto;
-
+    const user = req.user as UserEntity;
     return this.jobService
-      .createJob(createJobDto!)
+      .createJob(createJobDto!, user)
       .then((job) => HttpResponse.create(res, 201, 'job.create', { job }))
       .catch((error) =>
         handleError(

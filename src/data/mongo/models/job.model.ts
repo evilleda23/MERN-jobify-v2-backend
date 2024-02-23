@@ -19,6 +19,10 @@ const JobSchema = new Schema(
       type: String,
       default: 'my city',
     },
+    createdBy: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
   },
   { timestamps: true }
 );

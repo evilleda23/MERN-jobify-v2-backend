@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { UploadedFile } from 'express-fileupload';
 
-import { CustomError, UserEntity } from '../../domain';
+import { CustomError } from '../../domain';
 import { Uuid } from '../../config';
 
 export class FileUploadService {
