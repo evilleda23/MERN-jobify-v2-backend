@@ -6,6 +6,7 @@ import { LoginUserDto } from '../../domain/dtos';
 import { RegisterUserDto } from '../../domain/dtos/auth/register-user.dto';
 import { EmailService } from './email.service';
 import { UserModel } from '../../data/mongo';
+import { CookieHandler } from '../shared';
 
 export class AuthService {
   constructor(private readonly emailService: EmailService) {}
@@ -92,7 +93,7 @@ export class AuthService {
   }
 
   public async logoutUser(res: Response) {
-    JWTAdapter.clearTokenInCookie(res);
+    CookieHandler.clearTokenInCookie(res);
     return true;
   }
 }

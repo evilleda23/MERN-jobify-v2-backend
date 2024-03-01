@@ -1,4 +1,6 @@
 {
+  "exclude": ["node_modules", "dist", "src/**/*.test.ts"],
+  "include": ["src/**/*.ts"],
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */
 
@@ -35,7 +37,8 @@
     "types": [
       "node",
       "express",
-      "./src/types/express/index.d.ts"
+      "./src/types/express/index.d.ts",
+      "jest"
     ] /* Specify type package names to be included without being referenced in a source file. */,
     // "allowUmdGlobalAccess": true,                     /* Allow accessing UMD globals from modules. */
     // "moduleSuffixes": [],                             /* List of file name suffixes to search when resolving a module. */
