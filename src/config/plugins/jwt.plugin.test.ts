@@ -17,7 +17,7 @@ describe('JWT Plugin', () => {
     expect(typeof result).toBe('object');
     expect(result?.id).toBe('1234');
   });
-  test('should return an error', async () => {
+  test('should return an error verifying token', async () => {
     const token = await JWTAdapter.generateToken({ id: '1234' }, '1s');
     await new Promise((r) => setTimeout(r, 2000));
 
@@ -26,6 +26,14 @@ describe('JWT Plugin', () => {
       expect(response).toBe(null);
     } catch (error) {
       console.log(error);
+    }
+  });
+
+  test('should return null if is invalid expiresIn', async () => {
+    try {
+      const response = await JWTAdapter.generateToken('invalid token', 'ABC');
+    } catch (error) {
+      expect(error).toBe(null);
     }
   });
 });

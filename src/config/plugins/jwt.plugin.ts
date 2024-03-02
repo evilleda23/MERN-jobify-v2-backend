@@ -3,17 +3,18 @@ import { envs } from '../envs';
 import { Response } from 'express';
 
 const JWT_SECRET = envs.JWT_SECRET;
-const JWT_EXPIRES = envs.JWT_EXPIRE || '3000h';
+const JWT_EXPIRES = envs.JWT_EXPIRE;
 export class JWTAdapter {
   static async generateToken(
     payload: any,
     expiresIn?: string
   ): Promise<string | null> {
     return new Promise((resolve) => {
+      const expires = expiresIn || JWT_EXPIRES;
       return jwt.sign(
         payload,
         JWT_SECRET,
-        { expiresIn: expiresIn || JWT_EXPIRES },
+        { expiresIn: expires },
         (err, token) => {
           if (err) return resolve(null);
           resolve(token!);

@@ -146,3 +146,5 @@ src/domain/i18n/*/translation.missing.json
 /uploads/**/*.gif
 
 /mongo-test
+
+.env.test
