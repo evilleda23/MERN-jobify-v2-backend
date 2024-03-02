@@ -2,9 +2,10 @@ import { Request, Response } from 'express';
 
 import { UserService } from '../services/user.service';
 
-import { HttpResponse } from '../shared';
+import { HttpResponse, handleError } from '../shared';
 import { LogDatasource } from '../../domain/datasources/log.datasource';
 import { UserEntity } from '../../domain';
+import { UpdateUserDto } from '../../domain/dtos';
 
 export class UserController {
   constructor(
@@ -21,5 +22,20 @@ export class UserController {
 
   public getApplicationStats = (req: Request, res: Response) => {};
 
-  public updateUser = (req: Request, res: Response) => {};
+  public updateUser = (req: Request, res: Response) => {
+    const updateUser = req.body.UpdateUserDto as UpdateUserDto;
+    return this.userService
+      .updateUser(updateUser)
+      .then((user) =>
+        HttpResponse.create(res, 200, 'user.updateUser', { user })
+      )
+      .catch((error) =>
+        handleError(
+          error,
+          res,
+          `${this.constructor.name}.updateUser`,
+          this.logService
+        )
+      );
+  };
 }
