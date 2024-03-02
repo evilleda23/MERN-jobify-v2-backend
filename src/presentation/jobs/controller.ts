@@ -45,9 +45,9 @@ export class JobController {
   };
   public getJobById = (req: Request, res: Response) => {
     const { id } = req.params;
-
+    const user = req.user as UserEntity;
     return this.jobService
-      .getJobById(id)
+      .getMyJobById(id, user)
       .then((job) => HttpResponse.create(res, 200, 'job.getById', { job }))
       .catch((error) =>
         handleError(

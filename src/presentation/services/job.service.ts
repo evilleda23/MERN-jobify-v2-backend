@@ -53,6 +53,17 @@ export class JobService {
     if (!job) throw CustomError.notFound('job.notFound');
     return job;
   }
+
+  public async getMyJobById(id: string, user: UserEntity) {
+    const job = await this.getJobById(id);
+    if (
+      job.createdBy?.toString() !== user.id &&
+      !Validators.isAdminRole(user.role)
+    )
+      throw CustomError.forbidden('error');
+    return job;
+  }
+
   async createJob(createJobDto: CreateJobDto, user: UserEntity) {
     try {
       const job = new JobModel({

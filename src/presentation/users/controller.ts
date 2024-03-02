@@ -20,7 +20,21 @@ export class UserController {
     return HttpResponse.create(res, 200, 'user.getCurrentUser', { user });
   };
 
-  public getApplicationStats = (req: Request, res: Response) => {};
+  public getApplicationStats = (req: Request, res: Response) => {
+    return this.userService
+      .getApplicationStats()
+      .then((stats) =>
+        HttpResponse.create(res, 200, 'user.getApplicationStats', { stats })
+      )
+      .catch((error) =>
+        handleError(
+          error,
+          res,
+          `${this.constructor.name}.getApplicationStats`,
+          this.logService
+        )
+      );
+  };
 
   public updateUser = (req: Request, res: Response) => {
     const updateUser = req.body.UpdateUserDto as UpdateUserDto;

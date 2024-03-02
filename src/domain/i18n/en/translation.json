@@ -1,6 +1,9 @@
 {
+  "error_403": "You are not authorized to access this resource",
+  "error_404": "The requested resource was not found",
   "error_500": "An unexpected error occurred on the server. Please try again later.",
   "payload_400": "Invalid payload",
+  "invalidId_400": "Invalid ID",
 
   "auth": {
     "noToken_401": "No token, authorization denied",
@@ -41,6 +44,9 @@
     "delete_200": "Job deleted"
   },
   "user": {
+    "getCurrentUser_200": "User retrieved successfully",
+    "updateUser_200": "User updated",
+    "emailExists_409": "Email is already taken",
     "notFound_404": "User not found"
   }
 }

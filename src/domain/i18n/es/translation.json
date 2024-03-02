@@ -1,7 +1,10 @@
 {
+  "error_403": "No tienes permisos para realizar esta acción",
+  "error_404": "No se ha encontrado el recurso solicitado",
   "error_500": "Error interno del servidor. Por favor, inténtelo de nuevo más tarde",
   "payload_400": "Payload inválido",
   "invalidId_400": "Id inválido",
+
   "auth": {
     "noToken_401": "No se ha enviado el token de autenticación",
     "invalidToken_401": "Token de autenticación no válido",
@@ -40,6 +43,9 @@
     "delete_200": "Trabajo eliminado correctamente"
   },
   "user": {
+    "getCurrentUser_200": "Usuario obtenido correctamente",
+    "updateUser_200": "Usuario actualizado correctamente",
+    "emailExists_409": "Email ya existe",
     "notFound_404": "Usuario no encontrado"
   }
 }

@@ -11,7 +11,7 @@ export class CustomError extends Error {
   static unauthorize(message: string) {
     return new CustomError(401, message);
   }
-  static forbbiden(message: string) {
+  static forbidden(message: string) {
     return new CustomError(403, message);
   }
   static notFound(message: string) {

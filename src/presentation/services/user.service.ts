@@ -1,9 +1,7 @@
-import { Response } from 'express';
-
 import { CustomError } from '../../domain';
 import { PaginationDto, UpdateUserDto } from '../../domain/dtos';
 import { Paginate } from '../shared';
-import { UserModel } from '../../data/mongo';
+import { JobModel, UserModel } from '../../data/mongo';
 
 export class UserService {
   constructor() {}
@@ -18,6 +16,15 @@ export class UserService {
     if (!user) throw CustomError.notFound('user.notFound');
     return user;
   }
+
+  public async getApplicationStats() {
+    const [users, jobs] = await Promise.all([
+      UserModel.countDocuments(),
+      JobModel.countDocuments(),
+    ]);
+    return { users, jobs };
+  }
+
   public async updateUser(updateUser: UpdateUserDto) {
     const { id, email } = updateUser.values;
 

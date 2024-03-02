@@ -27,7 +27,7 @@ export class JobRoutes {
       ValidateQueryDtoMiddleware(PaginationDto),
       jobController.getJobsCreatedByUser
     );
-    router.get('/:id', AuthMiddleware.isJobOwner, jobController.getJobById);
+    router.get('/:id', jobController.getJobById);
     router.post(
       '/',
       ValidateBodyDtoMiddleware(CreateJobDto),
